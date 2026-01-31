@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flashcard Quiz App</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#f8f9fa;
+}
+.card-box{
+    min-height:200px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Flashcard Quiz App</h2>
+
+    <!-- Flashcard -->
+    <div class="card shadow p-4 text-center card-box">
+        <h4 id="question">Question</h4>
+        <p id="answer" class="d-none mt-3 text-muted">Answer</p>
+
+        <button class="btn btn-primary mt-3" onclick="showAnswer()">Show Answer</button>
+    </div>
+
+        <div class="text-center mt-3">
+        <button class="btn btn-secondary me-2" onclick="prevCard()">Previous</button>
+        <button class="btn btn-secondary" onclick="nextCard()">Next</button>
+    </div>
+
+        <div class="card shadow p-4 mt-4">
+        <h5>Add Flashcard</h5>
+        <input type="text" id="newQuestion" class="form-control mb-2" placeholder="Enter Question">
+        <input type="text" id="newAnswer" class="form-control mb-2" placeholder="Enter Answer">
+        <button class="btn btn-success" onclick="addCard()">Add</button>
+        <button class="btn btn-danger mt-2" onclick="deleteCard()">Delete Current</button>
+    </div>
+</div>
+
+<script>
+let flashcards = [
+ {question:"What is a computer?",answer:"An electronic device that processes data."},
+ {question:"What is hardware?",answer:"Physical parts of a computer."},
+ {question:"What is software?",answer:"Programs that run on a computer."},
+ {question:"What is HTML?",answer:"HTML creates webpage structure."},
+ {question:"What is CSS?",answer:"CSS styles web pages."},
+ {question:"What is JavaScript?",answer:"JavaScript adds interactivity."},
+ {question:"What is Bootstrap?",answer:"A CSS framework for responsive design."},
+ {question:"What is Internet?",answer:"Global network of computers."},
+ {question:"What is browser?",answer:"Software to access websites."},
+ {question:"What is database?",answer:"Collection of organized data."}
+];
+
+let index = 0;
+
+function loadCard(){
+ document.getElementById("question").innerText = flashcards[index].question;
+ document.getElementById("answer").innerText = flashcards[index].answer;
+ document.getElementById("answer").classList.add("d-none");
+}
+
+function showAnswer(){
+ document.getElementById("answer").classList.remove("d-none");
+}
+
+function nextCard(){
+ index = (index + 1) % flashcards.length;
+ loadCard();
+}
+
+function prevCard(){
+ index = (index - 1 + flashcards.length) % flashcards.length;
+ loadCard();
+}
+
+function addCard(){
+ let q = document.getElementById("newQuestion").value;
+ let a = document.getElementById("newAnswer").value;
+
+ if(q==="" || a===""){
+   alert("Fill both fields");
+   return;
+ }
+
+ flashcards.push({question:q,answer:a});
+ index = flashcards.length - 1;
+ loadCard();
+
+ document.getElementById("newQuestion").value="";
+ document.getElementById("newAnswer").value="";
+}
+
+function deleteCard(){
+ if(flashcards.length===1){
+   alert("At least one card required");
+   return;
+ }
+ flashcards.splice(index,1);
+ index=0;
+ loadCard();
+}
+
+loadCard();
+</script>
+
+</body>
+</html>
